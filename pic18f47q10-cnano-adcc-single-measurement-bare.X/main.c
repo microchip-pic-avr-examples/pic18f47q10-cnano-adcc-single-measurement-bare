@@ -21,16 +21,13 @@
     SOFTWARE.
 */
 
-#pragma config WDTE = OFF        /*disable Watchdog*/
-#pragma config LVP = ON   /* Low voltage programming enabled, RE3 pin is MCLR */
+/*disable Watchdog*/
+#pragma config WDTE = OFF
+/* Low voltage programming enabled, RE3 pin is MCLR */
+#pragma config LVP = ON 
 
 #include <xc.h>
 #include <stdint.h>
-
-/*channel number that connects to VSS*/
-#define DISCHARGE_SAMPLE_CAP                0x3C
-/*channel number that connects to RA0*/
-#define ANALOG_CHANNEL                      0x00
 
 static void CLK_init(void);
 static void PORT_init(void);
@@ -43,55 +40,57 @@ uint16_t volatile adcVal;
 static void CLK_init(void)
 {
     /* set HFINTOSC Oscillator */
-    OSCCON1 = _OSCCON1_NOSC1_MASK | _OSCCON1_NOSC2_MASK;
+    OSCCON1bits.NOSC = 6;
     /* set HFFRQ to 1 MHz */
-    OSCFRQ = ~_OSCFREQ_HFFRQ_MASK;
+    OSCFRQbits.HFFRQ = 0;
 }
 
 static void PORT_init(void)
 {
-    ANSELA |= _ANSELA_ANSELA0_MASK;       /*set pin RA0 as analog*/
-    TRISA |= _TRISA_TRISA0_MASK;          /*set pin RA0 as input*/
+    /*set pin RA0 as analog*/
+    ANSELAbits.ANSELA0 = 1;
+    /*set pin RA0 as input*/
+    TRISAbits.TRISA0 = 1;  
 }
 
 static void ADCC_init(void)
 {
-    ADCON0 = _ADCON0_ADON_MASK     /*enable ADCC module*/
-           | _ADCON0_ADCS_MASK     /*Select FRC clock*/
-           | _ADCON0_ADFM_MASK;    /*result right justified*/
+    /* Enable the ADCC module */
+    ADCON0bits.ADON = 1; 
+    /* Select FRC clock */
+    ADCON0bits.ADCS = 1;
+    /* result right justified */
+    ADCON0bits.ADFM = 1;
 }
 
 static void ADCC_dischargeSampleCap(void)
 {
-    ADPCH = DISCHARGE_SAMPLE_CAP;
+    /*channel number that connects to VSS*/
+    ADPCH = 0x3C;
 }
 
 static uint16_t ADCC_readValue(uint8_t channel)
 {   
-    ADPCH = channel; 
-    
-    ADCON0 |= _ADCON0_ADGO_MASK; /*start conversion*/
-
-    while (ADCON0 & _ADCON0_ADGO_MASK)
+    ADPCH = channel;
+    /*start conversion*/
+    ADCON0bits.ADGO = 1;
+    while (ADCON0bits.ADGO)
     {
         ;
-    }   
-    
+    }
+        
     return ((uint16_t)((ADRESH << 8) + ADRESL));
 }
  
-void main(void) {
-    
-    CLK_init();
-    
+void main(void)
+{    
+    CLK_init();   
     PORT_init();
-    
     ADCC_init();
-    
     ADCC_dischargeSampleCap();
     
-    adcVal = ADCC_readValue(ANALOG_CHANNEL);
-        
+    /*channel number that connects to RA0*/
+    adcVal = ADCC_readValue(0x00); 
     while(1)
     {
           ;
