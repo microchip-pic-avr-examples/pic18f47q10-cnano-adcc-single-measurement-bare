@@ -29,15 +29,15 @@
 #include <xc.h>
 #include <stdint.h>
 
-static void CLK_init(void);
-static void PORT_init(void);
-static void ADCC_init(void);
-static void ADCC_dischargeSampleCap(void);
-static uint16_t ADCC_readValue(uint8_t channel);
+static void CLK_Init(void);
+static void PORT_Init(void);
+static void ADCC_Init(void);
+static void ADCC_DischargeSampleCap(void);
+static uint16_t ADCC_ReadValue(uint8_t channel);
 
 uint16_t volatile adcVal;
 
-static void CLK_init(void)
+static void CLK_Init(void)
 {
     /* set HFINTOSC Oscillator */
     OSCCON1bits.NOSC = 6;
@@ -45,7 +45,7 @@ static void CLK_init(void)
     OSCFRQbits.HFFRQ = 0;
 }
 
-static void PORT_init(void)
+static void PORT_Init(void)
 {
     /*set pin RA0 as analog*/
     ANSELAbits.ANSELA0 = 1;
@@ -53,7 +53,7 @@ static void PORT_init(void)
     TRISAbits.TRISA0 = 1;  
 }
 
-static void ADCC_init(void)
+static void ADCC_Init(void)
 {
     /* Enable the ADCC module */
     ADCON0bits.ADON = 1; 
@@ -63,13 +63,13 @@ static void ADCC_init(void)
     ADCON0bits.ADFM = 1;
 }
 
-static void ADCC_dischargeSampleCap(void)
+static void ADCC_DischargeSampleCap(void)
 {
     /*channel number that connects to VSS*/
     ADPCH = 0x3C;
 }
 
-static uint16_t ADCC_readValue(uint8_t channel)
+static uint16_t ADCC_ReadValue(uint8_t channel)
 {   
     ADPCH = channel;
     /*start conversion*/
@@ -84,13 +84,13 @@ static uint16_t ADCC_readValue(uint8_t channel)
  
 void main(void)
 {    
-    CLK_init();   
-    PORT_init();
-    ADCC_init();
-    ADCC_dischargeSampleCap();
+    CLK_Init();   
+    PORT_Init();
+    ADCC_Init();
+    ADCC_DischargeSampleCap();
     
     /*channel number that connects to RA0*/
-    adcVal = ADCC_readValue(0x00); 
+    adcVal = ADCC_ReadValue(0x00); 
     while(1)
     {
           ;
