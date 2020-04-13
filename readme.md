@@ -27,11 +27,9 @@ The PIC18F47Q10 Curiosity Nano Development Board is used as test platform, along
 
 The following configurations must be made for this project:
 
-|Pin           | Configuration      |
-
+| Pin           | Configuration      |
 | :----------: | :----------------: |
-
-|RA0           | Analog Input       |
+| RA0           | Analog Input       |
 
 <img src="images/HWsetup.png" alt="Hardware Setup" width="480"/>
 
