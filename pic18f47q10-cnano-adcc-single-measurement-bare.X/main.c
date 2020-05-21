@@ -21,76 +21,77 @@
     SOFTWARE.
 */
 
-/*disable Watchdog*/
-#pragma config WDTE = OFF
-/* Low voltage programming enabled, RE3 pin is MCLR */
-#pragma config LVP = ON 
+#pragma config WDTE = OFF        /*disable Watchdog*/
+#pragma config LVP = ON   /* Low voltage programming enabled, RE3 pin is MCLR */
 
 #include <xc.h>
 #include <stdint.h>
 
-static void CLK_Init(void);
-static void PORT_Init(void);
-static void ADCC_Init(void);
-static void ADCC_DischargeSampleCap(void);
-static uint16_t ADCC_ReadValue(uint8_t channel);
+/*channel number that connects to VSS*/
+#define DISCHARGE_SAMPLE_CAP                0x3C
+/*channel number that connects to RA0*/
+#define ANALOG_CHANNEL                      0x00
+
+static void CLK_init(void);
+static void PORT_init(void);
+static void ADCC_init(void);
+static void ADCC_dischargeSampleCap(void);
+static uint16_t ADCC_readValue(uint8_t channel);
 
 uint16_t volatile adcVal;
 
-static void CLK_Init(void)
+static void CLK_init(void)
 {
     /* set HFINTOSC Oscillator */
-    OSCCON1bits.NOSC = 6;
+    OSCCON1 = _OSCCON1_NOSC1_MASK | _OSCCON1_NOSC2_MASK;
     /* set HFFRQ to 1 MHz */
-    OSCFRQbits.HFFRQ = 0;
+    OSCFRQ = ~_OSCFREQ_HFFRQ_MASK;
 }
 
-static void PORT_Init(void)
+static void PORT_init(void)
 {
-    /*set pin RA0 as analog*/
-    ANSELAbits.ANSELA0 = 1;
-    /*set pin RA0 as input*/
-    TRISAbits.TRISA0 = 1;  
+    ANSELA |= _ANSELA_ANSELA0_MASK;       /*set pin RA0 as analog*/
+    TRISA |= _TRISA_TRISA0_MASK;          /*set pin RA0 as input*/
 }
 
-static void ADCC_Init(void)
+static void ADCC_init(void)
 {
-    /* Enable the ADCC module */
-    ADCON0bits.ADON = 1; 
-    /* Select FRC clock */
-    ADCON0bits.ADCS = 1;
-    /* result right justified */
-    ADCON0bits.ADFM = 1;
+    ADCON0 = _ADCON0_ADON_MASK     /*enable ADCC module*/
+           | _ADCON0_ADCS_MASK     /*Select FRC clock*/
+           | _ADCON0_ADFM_MASK;    /*result right justified*/
 }
 
-static void ADCC_DischargeSampleCap(void)
+static void ADCC_dischargeSampleCap(void)
 {
-    /*channel number that connects to VSS*/
-    ADPCH = 0x3C;
+    ADPCH = DISCHARGE_SAMPLE_CAP;
 }
 
-static uint16_t ADCC_ReadValue(uint8_t channel)
+static uint16_t ADCC_readValue(uint8_t channel)
 {   
-    ADPCH = channel;
-    /*start conversion*/
-    ADCON0bits.ADGO = 1;
-    while (ADCON0bits.ADGO)
+    ADPCH = channel; 
+    
+    ADCON0 |= _ADCON0_ADGO_MASK; /*start conversion*/
+
+    while (ADCON0 & _ADCON0_ADGO_MASK)
     {
         ;
-    }
-        
+    }   
+    
     return ((uint16_t)((ADRESH << 8) + ADRESL));
 }
  
-void main(void)
-{    
-    CLK_Init();   
-    PORT_Init();
-    ADCC_Init();
-    ADCC_DischargeSampleCap();
+void main(void) {
     
-    /*channel number that connects to RA0*/
-    adcVal = ADCC_ReadValue(0x00); 
+    CLK_init();
+    
+    PORT_init();
+    
+    ADCC_init();
+    
+    ADCC_dischargeSampleCap();
+    
+    adcVal = ADCC_readValue(ANALOG_CHANNEL);
+        
     while(1)
     {
           ;
