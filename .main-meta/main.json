@@ -3,27 +3,27 @@
     "category": "com.microchip.ide.project",
     "content": {
         "metaDataVersion": "1.1.0",
-        "name": "com.microchip.mcu8.mplabx.project.",
-        "version": " ",
-        "displayName": "  ",
-        "projectName": "",
-        "shortDescription": "",
+        "name": "com.microchip.mcu8.mplabx.project.pic18f47q10-cnano-adcc-single-measurement-bare",
+        "version": "1.0.4",
+        "displayName": "PIC18F47Q10 ADCC Internal Temperature Conversion Configuration Example",
+        "projectName": "pic18f47q10-cnano-adcc-single-measurement-bare",
+        "shortDescription": "PIC18F47Q10 ADCC Single Conversion Configuration Example",
         "ide": {
-            "name": "",
-            "semverRange": ""
+            "name": "MPLAB X",
+            "semverRange": ">=5.30.0"
         },
         "compiler": [
 			{
-				"name": "",
-				"semverRange": ""
+				"name": "XC8",
+				"semverRange": "^2.10.0"
 			}
 		],
         "dfp": {
-            "name": "",
-            "semverRange": ""
+            "name": "PIC18F-Q_DFP",
+            "semverRange": "^1.3.89"
         },
         "configurator": {
-            "name": "",
+            "name": "N/A",
             "semverRange": ""
         },
         "device": {
@@ -32,26 +32,25 @@
             "content": {
                 "metaDataVersion": "1.0.0",
                 "category": "com.microchip.device",
-                "name": "",
+                "name": "PIC18F47Q10",
                 "versionRange": "*"
             }
         },
-        "author": "",
+        "author": "Microchip",
         "subcategories": [
-            "",
+            "Peripherals",
             [
-               "Peripherals", ""
-            ],
-            [
-               "Peripherals", ""
-            ]            			
+               "Peripherals", "ADCC"
+            ]       			
         ],
         "peripherals": [
-            "",""
+            "ADCC"
         ],
         "keywords": [
-            "",
-            ""			
+            "Single",
+            "Measurement",
+            "Conversion",
+            "Bare Metal"		
         ],
 		"additionalData": {
 			"longDescription": {
