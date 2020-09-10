@@ -5,7 +5,7 @@
         "metaDataVersion": "1.1.0",
         "name": "com.microchip.mcu8.mplabx.project.pic18f47q10-cnano-adcc-single-measurement-bare",
         "version": "1.0.4",
-        "displayName": "PIC18F47Q10 ADCC Internal Temperature Conversion Configuration Example",
+        "displayName": "ADCC Internal Temperature Conversion Configuration Example",
         "projectName": "pic18f47q10-cnano-adcc-single-measurement-bare",
         "shortDescription": "PIC18F47Q10 ADCC Single Conversion Configuration Example",
         "ide": {
