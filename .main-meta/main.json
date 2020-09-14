@@ -5,9 +5,9 @@
         "metaDataVersion": "1.1.0",
         "name": "com.microchip.mcu8.mplabx.project.pic18f47q10-cnano-adcc-single-measurement-bare",
         "version": "1.0.4",
-        "displayName": "ADCC Internal Temperature Conversion Configuration Example",
+        "displayName": "ADCC Single Conversion Configuration",
         "projectName": "pic18f47q10-cnano-adcc-single-measurement-bare",
-        "shortDescription": "PIC18F47Q10 ADCC Single Conversion Configuration Example",
+        "shortDescription": "In this demo, the ADCC peripheral is used to read a value from an analog pin connected to a potentiometer.",
         "ide": {
             "name": "MPLAB X",
             "semverRange": ">=5.30.0"
