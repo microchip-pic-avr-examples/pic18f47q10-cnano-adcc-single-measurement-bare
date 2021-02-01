@@ -4,7 +4,7 @@
     "content": {
         "metaDataVersion": "1.1.0",
         "name": "com.microchip.mcu8.mplabx.project.pic18f47q10-cnano-adcc-single-measurement-bare",
-        "version": "1.0.4",
+        "version": "1.0.5",
         "displayName": "ADCC Single Conversion Configuration",
         "projectName": "pic18f47q10-cnano-adcc-single-measurement-bare",
         "shortDescription": "In this demo, the ADCC peripheral is used to read a value from an analog pin connected to a potentiometer.",
@@ -38,17 +38,16 @@
         },
         "author": "Microchip",
         "subcategories": [
-            "Peripherals",
             [
-               "Peripherals", "ADCC"
+               "Peripherals",
+			   "ADCC"
             ]       			
         ],
         "peripherals": [
             "ADCC"
         ],
         "keywords": [
-            "Single",
-            "Measurement",
+            "Single Measurement",
             "Conversion",
             "Bare Metal"		
         ],
